@@ -1,201 +1,232 @@
-# node-build
+# ruby-build
 
-[![Build Status](https://travis-ci.org/OiNutter/node-build.png?branch=master)](https://travis-ci.org/OiNutter/node-build)
+ruby-build is an [rbenv](https://github.com/sstephenson/rbenv) plugin that
+provides an `rbenv install` command to compile and install different versions
+of Ruby on UNIX-like systems.
 
-node-build is an [nodenv](https://github.com/OiNutter/nodenv) plugin
-that provides an `nodenv install` command to compile and install
-different versions of Node on UNIX-like systems.
+You can also use ruby-build without rbenv in environments where you need
+precise control over Ruby version installation.
 
-You can also use node-build without nodenv in environments where you
-need precise control over Node version installation.
+See the [list of releases](https://github.com/sstephenson/ruby-build/releases)
+for changes in each version.
 
 
 ## Installation
 
-### Installing as an nodenv plugin (recommended)
+### Installing as an rbenv plugin (recommended)
 
-Installing node-build as an nodenv plugin will give you access to the
-`nodenv install` command.
+Installing ruby-build as an rbenv plugin will give you access to the `rbenv
+install` command.
 
-    git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+    git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-This will install the latest development version of node-build into
-the `~/.nodenv/plugins/node-build` directory. From that directory, you
-can check out a specific release tag. To update node-build, run `git
-pull` to download the latest changes.
+This will install the latest development version of ruby-build into the
+`~/.rbenv/plugins/ruby-build` directory. From that directory, you can check out
+a specific release tag. To update ruby-build, run `git pull` to download the
+latest changes.
 
 ### Installing as a standalone program (advanced)
 
-Installing node-build as a standalone program will give you access to
-the `node-build` command for precise control over Node version
-installation. If you have nodenv installed, you will also be able to
-use the `nodenv install` command.
+Installing ruby-build as a standalone program will give you access to the
+`ruby-build` command for precise control over Ruby version installation. If you
+have rbenv installed, you will also be able to use the `rbenv install` command.
 
-    git clone git://github.com/OiNutter/node-build.git
-    cd node-build
+    git clone https://github.com/sstephenson/ruby-build.git
+    cd ruby-build
     ./install.sh
 
-This will install node-build into `/usr/local`. If you do not have
-write permission to `/usr/local`, you will need to run `sudo
-./install.sh` instead. You can install to a different prefix by
-setting the `PREFIX` environment variable.
+This will install ruby-build into `/usr/local`. If you do not have write
+permission to `/usr/local`, you will need to run `sudo ./install.sh` instead.
+You can install to a different prefix by setting the `PREFIX` environment
+variable.
 
-To update node-build after it has been installed, run `git pull` in
-your cloned copy of the repository, then re-run the install script.
+To update ruby-build after it has been installed, run `git pull` in your cloned
+copy of the repository, then re-run the install script.
+
+### Installing with Homebrew (for OS X users)
+
+Mac OS X users can install ruby-build with the [Homebrew](http://brew.sh)
+package manager. This will give you access to the `ruby-build` command. If you
+have rbenv installed, you will also be able to use the `rbenv install` command.
+
+*This is the recommended method of installation if you installed rbenv with
+Homebrew.*
+
+    brew install ruby-build
+
+Or, if you would like to install the latest development release:
+
+    brew install --HEAD ruby-build
+
 
 ## Usage
 
-### Using `nodenv install` with nodenv
+### Using `rbenv install` with rbenv
 
-To install a Node version for use with nodenv, run `nodenv install` with
-the exact name of the version you want to install. For example,
+To install a Ruby version for use with rbenv, run `rbenv install` with the
+exact name of the version you want to install. For example,
 
-    nodenv install 0.10.0
+    rbenv install 2.1.0
 
-Node versions will be installed into a directory of the same name
-under `~/.nodenv/versions`.
+Ruby versions will be installed into a directory of the same name under
+`~/.rbenv/versions`.
 
-To see a list of all available Node versions, run `nodenv install --list`.
-You may also tab-complete available Node
-versions if your nodenv installation is properly configured.
+To see a list of all available Ruby versions, run `rbenv install --list`. You
+may also tab-complete available Ruby versions if your rbenv installation is
+properly configured.
 
-### Using `node-build` standalone
+### Using `ruby-build` standalone
 
-If you have installed node-build as a standalone program, you can use
-the `node-build` command to compile and install Node versions into
-specific locations.
+If you have installed ruby-build as a standalone program, you can use the
+`ruby-build` command to compile and install Ruby versions into specific
+locations.
 
-Run the `node-build` command with the exact name of the version you
-want to install and the full path where you want to install it. For
-example,
+Run the `ruby-build` command with the exact name of the version you want to
+install and the full path where you want to install it. For example,
 
-    node-build 0.10.0 ~/local/node-0.10.0
+    ruby-build 2.1.0 ~/local/ruby-2.1.0
 
-To see a list of all available Node versions, run `node-build
---definitions`.
+To see a list of all available Ruby versions, run `ruby-build --definitions`.
 
-Pass the `-v` or `--verbose` flag to `node-build` as the first
-argument to see what's happening under the hood.
+Pass the `-v` or `--verbose` flag to `ruby-build` as the first argument to see
+what's happening under the hood.
 
 ### Custom definitions
 
-Both `nodenv install` and `node-build` accept a path to a custom
-definition file in place of a version name. Custom definitions let you
-develop and install versions of Node that are not yet supported by
-node-build.
+Both `rbenv install` and `ruby-build` accept a path to a custom definition file
+in place of a version name. Custom definitions let you develop and install
+versions of Ruby that are not yet supported by ruby-build.
 
-See the [node-build built-in
-definitions](https://github.com/OiNutter/node-build/tree/master/share/node-build)
-as a starting point for custom definition files.
+See the [ruby-build built-in definitions][definitions] as a starting point for
+custom definition files.
+
+[definitions]: https://github.com/sstephenson/ruby-build/tree/master/share/ruby-build
 
 ### Special environment variables
 
-You can set certain environment variables to control the build
-process.
+You can set certain environment variables to control the build process.
 
-* `TMPDIR` sets the location where node-build stores temporary files.
-* `NODE_BUILD_BUILD_PATH` sets the location in which sources are
-  downloaded and built. By default, this is a subdirectory of
-  `TMPDIR`.
-* `NODE_BUILD_CACHE_PATH`, if set, specifies a directory to use for
-  caching downloaded package files.
-* `NODE_BUILD_MIRROR_URL` overrides the default mirror URL root to one
-  of your choosing.
-* `NODE_BUILD_SKIP_MIRROR`, if set, forces node-build to download
-  packages from their original source URLs instead of using a mirror.
+* `TMPDIR` sets the location where ruby-build stores temporary files.
+* `RUBY_BUILD_BUILD_PATH` sets the location in which sources are downloaded and
+  built. By default, this is a subdirectory of `TMPDIR`.
+* `RUBY_BUILD_CACHE_PATH`, if set, specifies a directory to use for caching
+  downloaded package files.
+* `RUBY_BUILD_MIRROR_URL` overrides the default mirror URL root to one of your
+  choosing.
+* `RUBY_BUILD_SKIP_MIRROR`, if set, forces ruby-build to download packages from
+  their original source URLs instead of using a mirror.
 * `CC` sets the path to the C compiler.
+* `RUBY_CFLAGS` lets you pass additional options to the default `CFLAGS`. Use
+  this to override, for instance, the `-O3` option.
 * `CONFIGURE_OPTS` lets you pass additional options to `./configure`.
-* `MAKE` lets you override the command to use for `make`. Useful for
-  specifying GNU make (`gmake`) on some systems.
-* `MAKE_OPTS` (or `MAKEOPTS`) lets you pass additional options to
-  `make`.
-* `NODE_CONFIGURE_OPTS` and `NODE_MAKE_OPTS` allow you to specify
-  configure and make options for buildling MRI. These variables will
-  be passed to Node only, not any dependent packages (e.g. libyaml).
+* `MAKE` lets you override the command to use for `make`. Useful for specifying
+  GNU make (`gmake`) on some systems.
+* `MAKE_OPTS` (or `MAKEOPTS`) lets you pass additional options to `make`.
+* `MAKE_INSTALL_OPTS` lets you pass additional options to `make install`.
+* `RUBY_CONFIGURE_OPTS`, `RUBY_MAKE_OPTS` and `RUBY_MAKE_INSTALL_OPTS` allow
+  you to specify configure and make options for buildling MRI. These variables
+  will be passed to Ruby only, not any dependent packages (e.g. libyaml).
+
+### Applying patches to Ruby before compiling
+
+Both `rbenv install` and `ruby-build` support the `--patch` (`-p`) flag that
+signals that a patch from stdin should be applied to Ruby, JRuby, or Rubinius
+source code before the `./configure` and compilation steps.
+
+Example usage:
+
+```sh
+# applying a single patch
+$ rbenv install --patch 1.9.3-p429 < /path/to/ruby.patch
+
+# applying a patch from HTTP
+$ rbenv install --patch 1.9.3-p429 < <(curl -sSL http://git.io/ruby.patch)
+
+# applying multiple patches
+$ cat fix1.patch fix2.patch | rbenv install --patch 1.9.3-p429
+```
 
 ### Checksum verification
 
-If you have the `sha1`, `openssl`, or `sha1sum` tool installed,
-node-build will automatically verify the SHA1 checksum of each
-downloaded package before installing it.
+If you have the `md5`, `openssl`, or `md5sum` tool installed, ruby-build will
+automatically verify the MD5 checksum of each downloaded package before
+installing it.
 
-Checksums are optional and specified as anchors on the package URL in
-each definition. (All bundled definitions include checksums.)
+Checksums are optional and specified as anchors on the package URL in each
+definition. (All bundled definitions include checksums.)
 
 ### Package download mirrors
 
-You can point node-build to another mirror by specifying the
-`NODE_BUILD_MIRROR_URL` environment variable--useful if you'd like to
-run your own local mirror, for example. Package mirror URLs are
-constructed by joining this variable with the MD5 checksum of the
-package file.
+ruby-build will first attempt to download package files from a mirror hosted on
+Amazon CloudFront. If a package is not available on the mirror, if the mirror
+is down, or if the download is corrupt, ruby-build will fall back to the
+official URL specified in the definition file.
 
-If you don't have a SHA1 program installed, node-build will skip the
-download mirror and use official URLs instead. You can force
-node-build to bypass the mirror by setting the
-`NODE_BUILD_SKIP_MIRROR` environment variable.
+You can point ruby-build to another mirror by specifying the
+`RUBY_BUILD_MIRROR_URL` environment variable--useful if you'd like to run your
+own local mirror, for example. Package mirror URLs are constructed by joining
+this variable with the MD5 checksum of the package file.
+
+If you don't have an MD5 program installed, ruby-build will skip the download
+mirror and use official URLs instead. You can force ruby-build to bypass the
+mirror by setting the `RUBY_BUILD_SKIP_MIRROR` environment variable.
+
+The official ruby-build download mirror is sponsored by
+[37signals](http://37signals.com/).
 
 ### Package download caching
 
-You can instruct node-build to keep a local cache of downloaded
-package files by setting the `NODE_BUILD_CACHE_PATH` environment
-variable. When set, package files will be kept in this directory after
-the first successful download and reused by subsequent invocations of
-`node-build` and `nodenv install`.
+You can instruct ruby-build to keep a local cache of downloaded package files
+by setting the `RUBY_BUILD_CACHE_PATH` environment variable. When set, package
+files will be kept in this directory after the first successful download and
+reused by subsequent invocations of `ruby-build` and `rbenv install`.
 
-The `nodenv install` command defaults this path to `~/.nodenv/cache`, so
-in most cases you can enable download caching simply by creating that
-directory.
+The `rbenv install` command defaults this path to `~/.rbenv/cache`, so in most
+cases you can enable download caching simply by creating that directory.
 
 ### Keeping the build directory after installation
 
-Both `node-build` and `nodenv install` accept the `-k` or `--keep`
-flag, which tells node-build to keep the downloaded source after
-installation. This can be useful if you need to use `gdb` and
-`memprof` with Node.
+Both `ruby-build` and `rbenv install` accept the `-k` or `--keep` flag, which
+tells ruby-build to keep the downloaded source after installation. This can be
+useful if you need to use `gdb` and `memprof` with Ruby.
 
-Source code will be kept in a parallel directory tree
-`~/.nodenv/sources` when using `--keep` with the `nodenv install`
-command. You should specify the location of the source code with the
-`NODE_BUILD_BUILD_PATH` environment variable when using `--keep` with
-`node-build`.
+Source code will be kept in a parallel directory tree `~/.rbenv/sources` when
+using `--keep` with the `rbenv install` command. You should specify the
+location of the source code with the `RUBY_BUILD_BUILD_PATH` environment
+variable when using `--keep` with `ruby-build`.
 
 
 ## Getting Help
 
-Please see the [node-build
-wiki](https://github.com/OiNutter/node-build/wiki) for solutions to
-common problems.
+Please see the [ruby-build wiki][wiki] for solutions to common problems.
+
+[wiki]: https://github.com/sstephenson/ruby-build/wiki
 
 If you can't find an answer on the wiki, open an issue on the [issue
-tracker](https://github.com/OiNutter/node-build/issues). Be sure to
-include the full build log for build failures.
+tracker](https://github.com/sstephenson/ruby-build/issues). Be sure to include
+the full build log for build failures.
 
-### Credits
-
-Copied from [ruby-build](https://github.com/sstephenson/ruby-build) and modified to work for node.
 
 ### License
 
 (The MIT License)
 
-Copyright (c) 2013 Will McKenzie
+Copyright (c) 2012-2013 Sam Stephenson
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
